@@ -6,6 +6,43 @@
         <main class="container">
 
             <section>
+                <form @submit.prevent="createOrUpdate" class="row">
+                    <div class="mb-2 col-12">
+                        <label class="form-label">Nombre</label>
+                        <input class="form-control" type="text" v-model="product.name" required>
+                    </div>
+                    <div class="mb-2 col-12">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-control" v-model="product.description" required></textarea>
+                    </div>
+                    <div class="mb-2 col-6">
+                        <label class="form-label">Precio</label>
+                        <input class="form-control" type="number" v-model="product.price" required min="1">
+                    </div>
+                    <div class="mb-2 col-6">
+                        <label class="form-label">Stock</label>
+                        <input class="form-control" type="number" v-model="product.stock" required min="0">
+                    </div>
+                    <div class="mb-2 col-6">
+                        <label class="form-label">Imagen</label>
+                        <input class="form-control" type="url" v-model="product.image" required>
+                    </div>
+                    <div class="mb-2 col-6">
+                        <label class="form-label">Categoría</label>
+                        <select v-model="product.category" required class="form-control">
+                            <option value="">Selecione una categoría</option>
+                            <option :value="category" v-for="category in productsStore.categories" :key="category">{{
+                                category }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <button type="submit" class="btn btn-primary">Crear</button>
+                        <button class="btn btn-secondary ms-2" @click="resetForm">Reset</button>
+                    </div>
+                </form>
+            </section>
+
+            <section>
                 <h2>Listado de productos:</h2>
 
                 <div v-if="productsStore.products.length > 0">
@@ -54,12 +91,36 @@
 
 <script setup>
 import HeaderComp from '@/components/HeaderComp.vue';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import { useProductsStore } from '@/stores/products.store';
 
 const productsStore = useProductsStore();
 
+
+const product = ref({
+    id: "",
+    name: "",
+    description: "",
+    price: 1,
+    stock: 0,
+    image: "https://placehold.co/600x400",
+    category: ""
+});
+
+
+const resetForm = () => {
+
+    product.value = {
+        id: "",
+        name: "",
+        description: "",
+        price: 1,
+        stock: 0,
+        image: "https://placehold.co/600x400",
+        category: ""
+    }
+};
 
 
 onMounted(async () => {

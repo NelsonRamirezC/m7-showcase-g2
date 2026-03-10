@@ -8,6 +8,8 @@ export const useProductsStore = defineStore("products", () => {
     //ESTADOS GLOBALES
     const products = ref([]);
 
+    const categories = ref(["Hogar", "Cocina", "Jardín", "Dormitorio"]);
+
     //GETTERS
     //const doubleCount = computed(() => count.value * 2);
 
@@ -30,5 +32,5 @@ export const useProductsStore = defineStore("products", () => {
         }
     };
     
-    return { products, fetchProducts };
+    return { products, categories, fetchProducts };
 });

@@ -1,8 +1,6 @@
 <template>
-  <nav>
-    <RouterLink to="/">Home</RouterLink>
-
-  </nav>
+  
+  <NavbarComp />
 
   <RouterView />
 </template>
@@ -10,6 +8,7 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
+import NavbarComp from './components/NavbarComp.vue';
 
 </script>
 

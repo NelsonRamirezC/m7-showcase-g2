@@ -9,8 +9,17 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav ms-auto">
+                    <div class="navbar-nav ms-auto me-5">
                         <RouterLink to="/" class="nav-link">Home</RouterLink>
+                        <div class="dropdown-center">
+                            <button class="btn dropdown-toggle px-0" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Admin
+                            </button>
+                            <ul class="dropdown-menu">
+                                <RouterLink to="/admin/products" class="dropdown-item">Productos</RouterLink>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>

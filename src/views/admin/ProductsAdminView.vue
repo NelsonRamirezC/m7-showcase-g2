@@ -36,7 +36,8 @@
                         </select>
                     </div>
                     <div class="mb-2">
-                        <button type="submit" class="btn btn-primary">Crear</button>
+                        <button type="submit" class="btn btn-primary" v-if="!editMode">Crear</button>
+                        <button type="submit" class="btn btn-warning" v-if="editMode">Editar</button>
                         <button class="btn btn-secondary ms-2" @click="resetForm">Reset</button>
                     </div>
                 </form>
@@ -70,7 +71,7 @@
                                 <td>{{ product.stock }}</td>
                                 <td>{{ product.category }}</td>
                                 <td>
-                                    <button class="btn btn-warning">Editar</button>
+                                    <button class="btn btn-warning" @click="preEdit(product.id)">Editar</button>
                                     <button class="btn btn-danger ms-1" @click="deleteProduct(product.id, product.name)">Eliminar</button>
                                 </td>
                             </tr>
@@ -122,6 +123,15 @@ const resetForm = () => {
         image: "https://placehold.co/600x400",
         category: ""
     }
+
+    editMode.value = false;
+};
+
+const preEdit = (id) => {
+    editMode.value = true;
+
+    let productFound = productsStore.getProduct(id);
+    product.value = {...productFound };
 };
 
 const deleteProduct = async (id, name) => {
@@ -148,6 +158,15 @@ const createProduct = async () => {
     resetForm();
 };
 
+const updateProduct = async () => {
+    let respuesta = await productsStore.updateProduct(product.value);
+    
+    if(respuesta.error) return alert(respuesta.error);
+
+    alert(respuesta.success);
+    resetForm();
+};
+
 
 const createOrUpdate = () => {
 
@@ -156,7 +175,6 @@ const createOrUpdate = () => {
     }else{
         createProduct();
     }
-
 }
 
 

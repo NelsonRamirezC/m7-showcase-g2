@@ -1,7 +1,14 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
-import { collection, getDocs, addDoc, deleteDoc, doc } from "firebase/firestore";
+import {
+    collection,
+    getDocs,
+    addDoc,
+    deleteDoc,
+    doc,
+    updateDoc,
+} from "firebase/firestore";
 import { db } from "@/firebaseConfig.js";
 
 export const useProductsStore = defineStore("products", () => {
@@ -57,10 +64,9 @@ export const useProductsStore = defineStore("products", () => {
 
     const deleteProduct = async (id) => {
         try {
+            await deleteDoc(doc(db, "products", id));
 
-            await deleteDoc(doc(db, 'products', id));
-
-            let indexProduct = products.value.findIndex(p => p.id == id);
+            let indexProduct = products.value.findIndex((p) => p.id == id);
 
             products.value.splice(indexProduct, 1);
 
@@ -74,11 +80,47 @@ export const useProductsStore = defineStore("products", () => {
         }
     };
 
+    const getProduct = (id) => {
+        let product = products.value.find((p) => p.id == id);
+        return product;
+    };
+
+    const updateProduct = async (product) => {
+        try {
+
+            let idProduct = product.id;
+
+            delete product.id;
+
+            const docRef = doc(db, "products", idProduct);
+
+            await updateDoc(docRef, {...product});
+
+            let indexProduct = products.value.findIndex(p => p.id == idProduct);
+            
+            product.id = idProduct;
+
+            products.value[indexProduct] = {...product};
+
+            return {
+                success: "Producto actualizado con éxito",
+            };
+        } catch (error) {
+            console.log(error);
+
+            return {
+                error: "Error: No se pudo actualizar correctamente el producto, vuelva a intentar",
+            };
+        }
+    };
+
     return {
         products,
         categories,
         fetchProducts,
         createProduct,
         deleteProduct,
+        getProduct,
+        updateProduct,
     };
 });

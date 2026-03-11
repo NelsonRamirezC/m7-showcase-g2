@@ -71,7 +71,7 @@
                                 <td>{{ product.category }}</td>
                                 <td>
                                     <button class="btn btn-warning">Editar</button>
-                                    <button class="btn btn-danger ms-1">Eliminar</button>
+                                    <button class="btn btn-danger ms-1" @click="deleteProduct(product.id, product.name)">Eliminar</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -108,6 +108,8 @@ const product = ref({
     category: ""
 });
 
+const editMode = ref(false);
+
 
 const resetForm = () => {
 
@@ -121,6 +123,41 @@ const resetForm = () => {
         category: ""
     }
 };
+
+const deleteProduct = async (id, name) => {
+
+    let confirmation = confirm("Está seguro que desea eliminar el producto: "+ name);
+
+    if(!confirmation) return false;
+
+    let respuesta = await productsStore.deleteProduct(id);
+    
+    if(respuesta.error) return alert(respuesta.error);
+
+    alert(respuesta.success);
+
+}
+
+const createProduct = async () => {
+    
+    let respuesta = await productsStore.createProduct(product.value);
+    
+    if(respuesta.error) return alert(respuesta.error);
+
+    alert(respuesta.success);
+    resetForm();
+};
+
+
+const createOrUpdate = () => {
+
+    if(editMode.value == true){
+        updateProduct();
+    }else{
+        createProduct();
+    }
+
+}
 
 
 onMounted(async () => {

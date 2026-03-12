@@ -11,7 +11,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-auto me-5">
                         <RouterLink to="/" class="nav-link">Home</RouterLink>
-                        <div class="dropdown-center">
+                        <div class="dropdown-center" v-if="isAdmin">
                             <button class="btn dropdown-toggle px-0" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Admin
@@ -20,6 +20,16 @@
                                 <RouterLink to="/admin/products" class="dropdown-item">Productos</RouterLink>
                             </ul>
                         </div>
+
+                        <template v-if="!isAuth">
+                            <RouterLink to="/login" class="nav-link">Login</RouterLink>
+                            <RouterLink to="/register" class="nav-link">Register</RouterLink>
+                        </template>
+
+                        <template v-else>
+                            <span class="nav-link">Hola, {{ displayName }}</span>
+                            <a class="nav-link" href="#" @click.prevent="onLogout">Logout</a>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -29,7 +39,40 @@
 </template>
 
 <script setup>
+import { RouterLink , useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { useUserStore } from '@/stores/user.store.js'
+import { logout } from '@/services/auth.js'
 
+const router = useRouter()
+const userStore = useUserStore()
+
+const isAuth = computed(() => userStore.isAuthenticated)
+const isAdmin = computed(() => userStore.user?.role === 'admin')
+
+const displayName = computed(() => {
+    const u = userStore.user
+    if (!u) return ''
+    return `${u.firstname || ''} ${u.lastname || ''}`.trim() || u.email
+})
+
+
+
+async function onLogout() {
+    try {
+        await logout()
+        userStore.clearUser()
+        router.push({ name: 'home' })
+    } catch (e) {
+        console.error(e)
+    }
+}
 </script>
 
-<style scoped></style>
+
+<style scoped>
+.router-link-active,
+.router-link-exact-active {
+    font-weight: 600;
+}
+</style>

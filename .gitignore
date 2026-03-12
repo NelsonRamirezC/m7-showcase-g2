@@ -37,3 +37,6 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# CREDENCIALES FIREBASE
+/src/firebaseConfig.js

@@ -11,6 +11,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-auto me-5">
                         <RouterLink to="/" class="nav-link">Home</RouterLink>
+                        <RouterLink to="/products" class="nav-link">Productos</RouterLink>
                         <div class="dropdown-center" v-if="isAdmin">
                             <button class="btn dropdown-toggle px-0" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
@@ -27,8 +28,8 @@
                         </template>
 
                         <template v-else>
-                            <span class="nav-link">Hola, {{ displayName }}</span>
                             <a class="nav-link" href="#" @click.prevent="onLogout">Logout</a>
+                            <RouterLink :to="{name: 'profile', params: {id: userStore.user.uid }}" class="nav-link">Hola, {{ displayName }}</RouterLink>
                         </template>
                     </div>
                 </div>
@@ -54,7 +55,7 @@ const displayName = computed(() => {
     const u = userStore.user
     if (!u) return ''
     return `${u.firstname || ''} ${u.lastname || ''}`.trim() || u.email
-})
+});
 
 
 

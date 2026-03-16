@@ -1,8 +1,11 @@
 <template>
-  
+
   <NavbarComp />
 
-  <RouterView />
+  <div class="py-3">
+    <RouterView />
+  </div>
+
 </template>
 
 
@@ -12,6 +15,4 @@ import NavbarComp from './components/NavbarComp.vue';
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

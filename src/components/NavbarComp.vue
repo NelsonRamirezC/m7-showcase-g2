@@ -11,6 +11,7 @@
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav ms-auto me-5">
                         <RouterLink to="/" class="nav-link">Home</RouterLink>
+                        <RouterLink to="/about" class="nav-link">Nosotros</RouterLink>
                         <RouterLink to="/products" class="nav-link">Productos</RouterLink>
                         <div class="dropdown-center" v-if="isAdmin">
                             <button class="btn dropdown-toggle px-0" type="button" data-bs-toggle="dropdown"

@@ -45,7 +45,12 @@ async function onLogin() {
     error.value = ''
     try {
         await login(email.value, password.value)
-        router.push('/')
+        router.push({ name: 'home', query: { 
+            text: 'Ha iniciado sesión correctamente.', 
+            title: "Login Success" ,
+            icon: "mdi-account-check-outline"
+        } 
+    })
     } catch (e) {
         error.value = e.message || 'Error en el inicio de sesión'
     }

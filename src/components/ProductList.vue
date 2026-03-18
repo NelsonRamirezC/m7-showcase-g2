@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="py-5 d-flex justify-content-center">
-            <div v-for="category in productStore.categories" :key="category">
+            <div class="mx-1" v-for="category in productStore.categories" :key="category">
                 <input type="checkbox" class="btn-check" :id="`btn-check-${category}`" autocomplete="off"
                     :value="category" v-model="categoriesFilter">
                 <label class="btn btn-outline-primary" :for="`btn-check-${category}`">{{ category }}</label>
